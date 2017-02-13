@@ -1,19 +1,11 @@
 package main
 
 import (
-	"fmt"
+	//"fmt"
 
 	"github.com/jinzhu/gorm"
 	_ "github.com/mattn/go-sqlite3"
 )
-
-var blogPosts BlogPosts
-
-type Post struct { //not sure I'll need these mappings...commented out for now.
-	Post_id int    //`gorm:"AUTO_INCREMENT" form:"post_id" json:"post_id"`
-	Title   string //`gorm:"not null" form:"title" json:"title"`
-	Body    string //`gorm:"not null" form:"body" json:"body"`
-}
 
 func InitDb() *gorm.DB {
 	// Opening file
@@ -27,13 +19,21 @@ func InitDb() *gorm.DB {
 	return db
 }
 
-func GetAllBlogPostRecords(id int) BlogPosts {
+func GetAllBlogPostRecords() []Post {
 
-	// TBD return empty for now
-	return BlogPosts{}
+	db := InitDb()
+	defer db.Close()
+
+	var posts []Post
+	db.Find(&posts)
+	//	for i, _ := range posts {
+	//		fmt.Printf("i = %d\n", i)
+	//		fmt.Printf("posts[%d].Post_id %d ", i, posts[i].Post_id)
+	//	}
+	return posts
 }
 
-func CreateBlogPostRecord(bp BlogPost) Post {
+func CreateBlogPostRecord(bp PostCreate) Post {
 	// get connection to db
 	db := InitDb()
 	defer db.Close()
@@ -43,15 +43,32 @@ func CreateBlogPostRecord(bp BlogPost) Post {
 	var posts []Post
 	db.Find(&posts)
 	for i, _ := range posts {
-		count++
+		count = i
 	}
 
-	//fmt.Printf("count = %d\n", count)
+	count++
+	//	fmt.Printf("count = %d\n", count)
+	//	fmt.Printf("bp.Title = %s\n", bp.Title)
+	//	fmt.Printf("bp.Body = %s\n", bp.Body)
 
 	//testing the ORM here...
-	blogPostRecord := Post{Post_id: count + 1, Title: "Trial Run", Body: "This is a trial run"}
+	blogPostRecord := Post{Post_id: count + 1, Title: bp.Title, Body: bp.Body}
 
 	db.Save(&blogPostRecord)
 
 	return blogPostRecord
 }
+
+//func insert(original []Post, position int, value int) []Post {
+//	l := len(original)
+//	target := original
+//	if cap(original) == l {
+//		target = make([]Post, l+1, l+10)
+//		copy(target, original[:position])
+//	} else {
+//		target = append(target, -1)
+//	}
+//	copy(target[position+1:], original[position:])
+//	target[position] = value
+//	return target
+//}

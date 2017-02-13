@@ -1,9 +1,12 @@
 package main
 
-type BlogPost struct {
-	Id      string    `json:"post_id"`
-	Title   string    `json:"title"`
-	Body    string    `json:"body"`
+type Post struct {
+	Post_id int    `json:"post_id"`
+	Title   string `json:"title"`
+	Body    string `json:"body"`
 }
 
-type BlogPosts []BlogPost
+type PostCreate struct {
+	Title string `json:"title"`
+	Body  string `json:"body"`
+}
