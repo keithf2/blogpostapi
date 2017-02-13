@@ -29,6 +29,7 @@ func NewRouter() *mux.Router {
 	return router
 }
 
+//Mapping the routes to the handlers
 var routes = Routes{
 	Route{
 		"Index",

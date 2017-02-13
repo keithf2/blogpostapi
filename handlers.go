@@ -34,7 +34,7 @@ func GetAllBlogPosts(w http.ResponseWriter, r *http.Request) {
 //
 func CreateBlogPost(w http.ResponseWriter, r *http.Request) {
 
-	var blogPost PostCreate
+	//limiting how much we read.
 	body, err := ioutil.ReadAll(io.LimitReader(r.Body, 1048576))
 	if err != nil {
 		panic(err)
@@ -42,6 +42,9 @@ func CreateBlogPost(w http.ResponseWriter, r *http.Request) {
 	if err := r.Body.Close(); err != nil {
 		panic(err)
 	}
+
+	//After a successful read, time to unmarshal the body into our PostCreate struct
+	var blogPost PostCreate
 	if err := json.Unmarshal(body, &blogPost); err != nil {
 		w.Header().Set("Content-Type", "application/json; charset=UTF-8")
 		w.WriteHeader(422) // unprocessable entity
@@ -50,10 +53,11 @@ func CreateBlogPost(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 
-	t := CreateBlogPostRecord(blogPost)
+	//Calling the DB layer
+	bp := CreateBlogPostRecord(blogPost)
 	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
 	w.WriteHeader(http.StatusCreated)
-	if err := json.NewEncoder(w).Encode(t); err != nil {
+	if err := json.NewEncoder(w).Encode(bp); err != nil {
 		panic(err)
 	}
 }

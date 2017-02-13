@@ -1,7 +1,7 @@
 package main
 
 import (
-	//"fmt"
+	//	"fmt"
 
 	"github.com/jinzhu/gorm"
 	_ "github.com/mattn/go-sqlite3"
@@ -20,55 +20,36 @@ func InitDb() *gorm.DB {
 }
 
 func GetAllBlogPostRecords() []Post {
-
+	// get connection to db
 	db := InitDb()
 	defer db.Close()
 
+	//find and return all blog posts
 	var posts []Post
 	db.Find(&posts)
-	//	for i, _ := range posts {
-	//		fmt.Printf("i = %d\n", i)
-	//		fmt.Printf("posts[%d].Post_id %d ", i, posts[i].Post_id)
-	//	}
+
 	return posts
 }
 
-func CreateBlogPostRecord(bp PostCreate) Post {
+func CreateBlogPostRecord(pc PostCreate) Post {
 	// get connection to db
 	db := InitDb()
 	defer db.Close()
 
 	// get number of records in posts table so post_id is unique.
-	var count int
 	var posts []Post
 	db.Find(&posts)
+	count := 0
+	var id int
 	for i, _ := range posts {
-		count = i
+		count += i
+		id++
 	}
 
-	count++
-	//	fmt.Printf("count = %d\n", count)
-	//	fmt.Printf("bp.Title = %s\n", bp.Title)
-	//	fmt.Printf("bp.Body = %s\n", bp.Body)
-
-	//testing the ORM here...
-	blogPostRecord := Post{Post_id: count + 1, Title: bp.Title, Body: bp.Body}
+	//creating the blog post record
+	blogPostRecord := Post{Post_id: id + 1, Title: pc.Title, Body: pc.Body}
 
 	db.Save(&blogPostRecord)
 
 	return blogPostRecord
 }
-
-//func insert(original []Post, position int, value int) []Post {
-//	l := len(original)
-//	target := original
-//	if cap(original) == l {
-//		target = make([]Post, l+1, l+10)
-//		copy(target, original[:position])
-//	} else {
-//		target = append(target, -1)
-//	}
-//	copy(target[position+1:], original[position:])
-//	target[position] = value
-//	return target
-//}
