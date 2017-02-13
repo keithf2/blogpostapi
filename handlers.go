@@ -16,6 +16,7 @@ func Index(w http.ResponseWriter, r *http.Request) {
 //  curl -i http://localhost:8080/posts
 //
 func GetAllBlogPosts(w http.ResponseWriter, r *http.Request) {
+	//tests
 	blogposts := BlogPosts{
 		BlogPost{Id: "1", Title: "My first post", Body: "This is my first blog post"},
 		BlogPost{Id: "2", Title: "My second post", Body: "This is my second blog post"},
@@ -30,11 +31,11 @@ func GetAllBlogPosts(w http.ResponseWriter, r *http.Request) {
 }
 
 //
-//putting the json in a file fixes the glob error.
+//putting the json in a file fixes the glob error (for windows).
 //curl -d @json.txt -H "Content-Type: application/json" -i  http://localhost:8080/post
 //
 func CreateBlogPost(w http.ResponseWriter, r *http.Request) {
-
+	//tests
 	var bp = BlogPost{Id: "1", Title: "My first post", Body: "This is my first blog post"}
 	CreateBlogPostRecord(bp)
 	fmt.Fprintf(w, "TBD\n")
