@@ -1,3 +1,6 @@
+//
+//  Handlers for blogpostapi
+//
 package main
 
 import (
@@ -30,7 +33,7 @@ func GetAllBlogPosts(w http.ResponseWriter, r *http.Request) {
 
 //
 // POST
-// curl -X POST -d "{\"title\": \"My second post\", \"Body\": \"This is my second blog post\"}" http://localhost:8080/post
+// curl -X POST -d "{\"title\": \"My test post\", \"body\": \"This is my test blog post\"}"  http://localhost:8080/post
 //
 func CreateBlogPost(w http.ResponseWriter, r *http.Request) {
 

@@ -1,3 +1,6 @@
+//
+// Creates the router for the blogpost api webservice
+//
 package main
 
 import (

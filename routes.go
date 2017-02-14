@@ -1,3 +1,6 @@
+//
+// Route struct, Router implementation, Route mapping
+//
 package main
 
 import (
@@ -6,6 +9,7 @@ import (
 	"github.com/gorilla/mux"
 )
 
+// Route struct and Router implementation
 type Route struct {
 	Name        string
 	Method      string

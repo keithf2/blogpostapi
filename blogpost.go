@@ -1,3 +1,6 @@
+//
+// Data structures for Post and PostCreate json
+//
 package main
 
 type Post struct {

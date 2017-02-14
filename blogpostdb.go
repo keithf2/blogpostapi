@@ -1,3 +1,6 @@
+//
+// DB methods, using GORM to connect to sqlite DB
+//
 package main
 
 import (
@@ -10,7 +13,7 @@ import (
 func InitDb() *gorm.DB {
 	// Opening file
 	db, err := gorm.Open("sqlite3", "./blog.db")
-	db.LogMode(true)
+	db.LogMode(false)
 	// Error
 	if err != nil {
 		panic(err)
